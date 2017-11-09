@@ -7,6 +7,8 @@
   (GET "/"
        {cookies :cookies}
        {:status 200
+        :cookies {"current-time" {:value (quot (System/currentTimeMillis) 1000)
+                                  :domain "example.dev"}}
         :headers {"Content-Type" "text/html"}
         :body "<h1>Hello, foo!</h1>"})
 
@@ -22,6 +24,8 @@
   (GET "/"
        {cookies :cookies}
        {:status 200
+        :cookies {"current-time" {:value (quot (System/currentTimeMillis) 1000)
+                                  :domain "example.dev"}}
         :headers {"Content-Type" "text/html"}
         :body "<h1>Hello, bar!</h1>"})
 
