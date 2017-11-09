@@ -4,11 +4,33 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
 
 (defroutes foo-routes
-  (GET "/" [] "Hello foo")
+  (GET "/"
+       {cookies :cookies}
+       {:status 200
+        :headers {"Content-Type" "text/html"}
+        :body "<h1>Hello, foo!</h1>"})
+
+  (GET "/cookies"
+       {cookies :cookies}
+       {:status 200
+        :headers {"Content-Type" "text/html"}
+        :body (pr-str cookies)})
+
   (route/not-found "Not Found"))
 
 (defroutes bar-routes
-  (GET "/" [] "Hello bar")
+  (GET "/"
+       {cookies :cookies}
+       {:status 200
+        :headers {"Content-Type" "text/html"}
+        :body "<h1>Hello, bar!</h1>"})
+
+  (GET "/cookies"
+       {cookies :cookies}
+       {:status 200
+        :headers {"Content-Type" "text/html"}
+        :body (pr-str cookies)})
+
   (route/not-found "Not Found"))
 
 (defn domain-routing [domain-routes-map]
