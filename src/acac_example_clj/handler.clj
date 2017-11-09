@@ -12,7 +12,7 @@
         :headers {"Content-Type" "text/html"}
         :body "<h1>Hello, foo!</h1>"})
 
-  (GET "/cookies"
+  (POST "/cookies"
        {cookies :cookies}
        {:status 200
         :headers {"Content-Type" "text/html"}
@@ -29,7 +29,7 @@
         :headers {"Content-Type" "text/html"}
         :body "<h1>Hello, bar!</h1>"})
 
-  (GET "/cookies"
+  (POST "/cookies"
        {cookies :cookies}
        {:status 200
         :headers {"Content-Type" "text/html"}
@@ -47,4 +47,4 @@
                    "bar.example.dev:3000" bar-routes}))
 
 (def app
-  (wrap-defaults app-routes site-defaults))
+  (wrap-defaults app-routes (assoc-in site-defaults [:security :anti-forgery] false)))
