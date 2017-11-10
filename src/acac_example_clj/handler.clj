@@ -1,7 +1,9 @@
 (ns acac-example-clj.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [acac-example-clj.pages :as pages]
+            [ring.middleware.cors :refer [wrap-cors]]))
 
 (defroutes foo-routes
   (GET "/"
@@ -10,7 +12,7 @@
         :cookies {"current-time" {:value (quot (System/currentTimeMillis) 1000)
                                   :domain "example.dev"}}
         :headers {"Content-Type" "text/html"}
-        :body "<h1>Hello, foo!</h1>"})
+        :body pages/foo-index})
 
   (POST "/cookies"
        {cookies :cookies}
@@ -44,7 +46,10 @@
 
 (def app-routes
   (domain-routing {"foo.example.dev:3000" foo-routes
-                   "bar.example.dev:3000" bar-routes}))
+                   "bar.example.dev:3000"
+                   (wrap-cors bar-routes
+                              :access-control-allow-origin [#"http://foo.example.dev:3000"]
+                              :access-control-allow-methods [:get :post])}))
 
 (def app
   (wrap-defaults app-routes (assoc-in site-defaults [:security :anti-forgery] false)))
