@@ -49,7 +49,8 @@
                    "bar.example.dev:3000"
                    (wrap-cors bar-routes
                               :access-control-allow-origin [#"http://foo.example.dev:3000"]
-                              :access-control-allow-methods [:get :post])}))
+                              :access-control-allow-methods [:get :post]
+                              :access-control-allow-credentials "true")}))
 
 (def app
   (wrap-defaults app-routes (assoc-in site-defaults [:security :anti-forgery] false)))
